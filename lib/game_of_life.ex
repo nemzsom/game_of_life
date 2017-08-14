@@ -1,8 +1,8 @@
 defmodule GameOfLife do
   use Application
 
-  def start(_type, _args) do
-    main(_args)
+  def start(_type, args) do
+    main(args)
     # temporary workaround for return value
     Task.start(fn -> IO.puts("app started") end)
   end
