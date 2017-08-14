@@ -1,5 +1,5 @@
 defmodule GameOfLife.RowTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   alias GameOfLife.{Row, World}
 
   test "A row can provide the actual state" do
