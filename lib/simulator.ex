@@ -4,25 +4,25 @@ defmodule GameOfLife.Simulator do
   alias GameOfLife.Scheduler.ScheduledEvent
 
   def start_link([displayPid: dpid, worldPid: wpid]) do
-    GenServer.start_link(__MODULE__, [displayPid: dpid, worldPid: wpid])
+    GenServer.start_link(__MODULE__, [displayPid: dpid, worldPid: wpid, iteration: 1])
   end
 
 #   def init([displayPid: dpid, worldPid: wpid]) do
 #     {:ok, [displayPid: dpid, worldPid: wpid]}
 #   end
 
-  def handle_cast(%ScheduledEvent{schedulerPid: scheduler}, [displayPid: dpid, worldPid: wpid]) do
+  def handle_cast(%ScheduledEvent{schedulerPid: scheduler}, [displayPid: dpid, worldPid: wpid, iteration: iter]) do
     # Do the work you desire here
     next_gen = World.next_gen(wpid)
     flatWorld = List.flatten(next_gen)
     if Enum.member?(flatWorld, :live) do
-      Display.update(dpid, next_gen, "Generating new iteration")
+      Display.update(dpid, next_gen, "Iteration #{iter}")
       World.update_state(wpid, next_gen)
     else
       GenServer.stop(scheduler)
       IO.puts("Simulation is over everyone dead.")
     end
-    {:noreply, [displayPid: dpid, worldPid: wpid]}
+    {:noreply, [displayPid: dpid, worldPid: wpid, iteration: iter + 1]}
   end
 
 end

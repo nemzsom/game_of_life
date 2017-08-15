@@ -1,5 +1,5 @@
 defmodule GameOfLife.CellTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case, async: false
   alias GameOfLife.{Cell, World}
 
   test "store and retrieve cell state by coordinates" do
